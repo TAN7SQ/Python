@@ -1,7 +1,7 @@
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QWidget
 
 
-class MyWindow(QMainWindow):
+class MyWindow(QWidget):
     def __init__(self):
         super().__init__()
 

@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
 
 
 class MyWindow(QWidget):

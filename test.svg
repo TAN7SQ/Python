@@ -1,0 +1,109 @@
+<svg width="880" height="820" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .box { fill:#f7f9fc; stroke:#34495e; stroke-width:1.5; }
+    .arrow { stroke:#34495e; stroke-width:1.5; marker-end:url(#arrowhead); }
+    .title { font-family:Arial; font-size:14px; font-weight:bold; }
+    .text { font-family:Arial; font-size:12px; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#34495e" />
+    </marker>
+  </defs>
+
+  <!-- Init -->
+  <rect x="40" y="40" width="220" height="80" class="box"/>
+  <text x="50" y="60" class="title">初始化</text>
+  <text x="50" y="80" class="text">加载标定/增益，IMU零偏</text>
+  <text x="50" y="96" class="text">舵面中位校准，待发射</text>
+
+  <!-- Launch -->
+  <rect x="320" y="40" width="220" height="80" class="box"/>
+  <text x="330" y="60" class="title">发射（T0）</text>
+  <text x="330" y="80" class="text">相机90fps，IMU2kHz同步</text>
+  <text x="330" y="96" class="text">初始姿态稳定</text>
+
+  <line x1="260" y1="80" x2="320" y2="80" class="arrow"/>
+
+  <!-- Search -->
+  <rect x="600" y="40" width="240" height="110" class="box"/>
+  <text x="610" y="60" class="title">目标搜索</text>
+  <text x="610" y="80" class="text">引导灯检测（阈值+CNN可选）</text>
+  <text x="610" y="96" class="text">扫描姿态（滚/俯）</text>
+  <text x="610" y="112" class="text">超时→保守弹道</text>
+
+  <line x1="540" y1="80" x2="600" y2="80" class="arrow"/>
+
+  <!-- Track -->
+  <rect x="40" y="180" width="260" height="120" class="box"/>
+  <text x="50" y="200" class="title">锁定与跟踪</text>
+  <text x="50" y="220" class="text">KLT+Kalman，尺度估计</text>
+  <text x="50" y="236" class="text">自运动抵消（IMU+VIO）</text>
+  <text x="50" y="252" class="text">得像面误差与角速率</text>
+
+  <line x1="680" y1="150" x2="170" y2="180" class="arrow"/>
+
+  <!-- PN -->
+  <rect x="360" y="180" width="220" height="120" class="box"/>
+  <text x="370" y="200" class="title">PN制导</text>
+  <text x="370" y="220" class="text">a_n = N·Vc·λ_dot</text>
+  <text x="370" y="236" class="text">映射到姿态期望</text>
+
+  <!-- IBVS -->
+  <rect x="620" y="180" width="220" height="140" class="box"/>
+  <text x="630" y="200" class="title">IBVS控制</text>
+  <text x="630" y="220" class="text">e=[u-u0,v-v0,(s-s0)]</text>
+  <text x="630" y="236" class="text">v_c,ω_c= -λ·L⁺·e</text>
+  <text x="630" y="252" class="text">映射姿态命令</text>
+
+  <line x1="300" y1="240" x2="360" y2="240" class="arrow"/>
+  <line x1="580" y1="240" x2="620" y2="240" class="arrow"/>
+
+  <!-- Fusion -->
+  <rect x="40" y="340" width="260" height="110" class="box"/>
+  <text x="50" y="360" class="title">融合调度</text>
+  <text x="50" y="380" class="text">距离/误差自适应权重</text>
+  <text x="50" y="396" class="text">中程PN主导，近程IBVS主导</text>
+
+  <line x1="470" y1="300" x2="170" y2="340" class="arrow"/>
+  <line x1="730" y1="300" x2="170" y2="340" class="arrow"/>
+
+  <!-- Attitude -->
+  <rect x="360" y="340" width="220" height="120" class="box"/>
+  <text x="370" y="360" class="title">姿态控制</text>
+  <text x="370" y="380" class="text">外环姿态PID</text>
+  <text x="370" y="396" class="text">内环角速率PID（IMU）</text>
+
+  <line x1="300" y1="395" x2="360" y2="395" class="arrow"/>
+
+  <!-- Actuator -->
+  <rect x="620" y="340" width="220" height="120" class="box"/>
+  <text x="630" y="360" class="title">舵面分配与执行</text>
+  <text x="630" y="380" class="text">俯仰/滚转舵输出</text>
+  <text x="630" y="396" class="text">STM32 PWM控制</text>
+
+  <line x1="580" y1="400" x2="620" y2="400" class="arrow"/>
+
+  <!-- Terminal -->
+  <rect x="40" y="500" width="260" height="110" class="box"/>
+  <text x="50" y="520" class="title">近程终端</text>
+  <text x="50" y="540" class="text">IBVS主导，限制高频与饱和</text>
+  <text x="50" y="556" class="text">微PN修正避免错切</text>
+
+  <line x1="730" y1="460" x2="170" y2="500" class="arrow"/>
+
+  <!-- Impact -->
+  <rect x="360" y="500" width="220" height="90" class="box"/>
+  <text x="370" y="520" class="title">命中与结束</text>
+  <text x="370" y="540" class="text">事件判定/记录/安全收束</text>
+
+  <line x1="300" y1="555" x2="360" y2="555" class="arrow"/>
+
+  <!-- Exceptions -->
+  <rect x="620" y="500" width="220" height="120" class="box"/>
+  <text x="630" y="520" class="title">异常路径</text>
+  <text x="630" y="540" class="text">丢失→回搜索/保守弹道</text>
+  <text x="630" y="556" class="text">故障→最小姿态/安全</text>
+
+  <line x1="580" y1="555" x2="620" y2="555" class="arrow"/>
+</svg>

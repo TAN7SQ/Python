@@ -477,6 +477,7 @@ class SSHLoginDialog(QDialog):
 class RTSPPlayer(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setMaximumWidth(300)
         self.player = None
         self.init_ui()
 
